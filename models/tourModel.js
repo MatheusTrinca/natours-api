@@ -67,6 +67,36 @@ const tourSchema = mongoose.Schema(
       required: [true, 'A tour must have a image cover'],
     },
     images: [String],
+    startLocation: {
+      type: {
+        type: String,
+        default: 'Point',
+        enum: ['Point'],
+      },
+      coordinates: [Number],
+      address: String,
+      description: String,
+      day: Number,
+    },
+    locations: [
+      {
+        type: {
+          type: String,
+          default: 'Point',
+          enum: ['Point'],
+        },
+        coordinates: [Number],
+        address: String,
+        description: String,
+        day: Number,
+      },
+    ],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
     createdAt: {
       type: Date,
       default: Date.now(),
@@ -94,6 +124,13 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
+// Embutindo o Guia, como treino
+// tourSchema.pre('save', async function (next) {
+//   const guidesPromise = this.guides.map(async id => await User.findById(id));
+//   this.guides = await Promise.all(guidesPromise);
+//   next();
+// });
+
 // tourSchema.pre('save', function (next) {
 //   console.log('Runing pre save hook');
 //   next();
@@ -113,6 +150,14 @@ tourSchema.pre(/^find/, function (next) {
 
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
+  next();
+});
+
+tourSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'guides',
+    select: '-__v -role',
+  });
   next();
 });
 

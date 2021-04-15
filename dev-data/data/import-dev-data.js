@@ -16,10 +16,10 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true,
   })
-  .then((conn) => console.log('DB connection success'));
+  .then(conn => console.log('DB connection success'));
 
 // LER O JSON
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`));
+const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`));
 
 // Importar Dados para o Tours Collection
 const importData = async () => {
