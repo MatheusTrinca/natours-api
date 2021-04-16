@@ -133,23 +133,6 @@ tourSchema.pre('save', function (next) {
   next();
 });
 
-// Embutindo o Guia, como treino
-// tourSchema.pre('save', async function (next) {
-//   const guidesPromise = this.guides.map(async id => await User.findById(id));
-//   this.guides = await Promise.all(guidesPromise);
-//   next();
-// });
-
-// tourSchema.pre('save', function (next) {
-//   console.log('Runing pre save hook');
-//   next();
-// });
-
-// tourSchema.post('save', function (doc, next) {
-//   console.log(doc);
-//   next();
-// });
-
 //* QUERY MIDDLEWARE
 tourSchema.pre(/^find/, function (next) {
   this.find({ secretTour: { $ne: true } });
