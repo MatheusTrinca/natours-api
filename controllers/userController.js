@@ -12,18 +12,6 @@ const filterObj = (obj, ...allowedFields) => {
   return filtered;
 };
 
-exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find();
-
-  res.status(200).json({
-    status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
-  });
-});
-
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create Error if try to update password in this route
   if (req.body.password || req.body.passwordConfirm) {
@@ -67,21 +55,20 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getUserId = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 // ISSO RELACIONADO AO ADMIN MANIPULANDO OS USUARIOS
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'error',
-    message: 'This route is not implemented yet',
+    message: 'This route does not exists. Please use /signup.',
   });
 };
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    message: 'This route is not implemented yet',
-  });
-};
-
+exports.getAllUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
 exports.updateUser = factory.updateOne(User);
-
 exports.deleteUser = factory.deleteOne(User);
