@@ -7,10 +7,10 @@ class APIFeatures {
   filter() {
     const queryObj = { ...this.queryString };
     const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach((el) => delete queryObj[el]);
+    excludedFields.forEach(el => delete queryObj[el]);
 
     let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
+    queryStr = queryStr.replace(/(gt|gte|lt|lte)\b/g, match => `$${match}`);
 
     // { difficulty: 'easy', duration: { $gte: 5 } }  -> MongoDB Original
     // { difficulty: 'easy', duration: { gte: '5' } }  -> Resposta da query Mongoose
