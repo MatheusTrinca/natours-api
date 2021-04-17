@@ -38,7 +38,7 @@ reviewSchema.index({ user: 1, tour: 1 }, { unique: true });
 reviewSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'user',
-    select: 'name email',
+    select: 'name email photo',
   });
   next();
 });
