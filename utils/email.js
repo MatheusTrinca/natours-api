@@ -7,8 +7,8 @@ const sendEmail = async options => {
     port: process.env.EMAIL_PORT,
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
+      pass: process.env.EMAIL_PASSWORD
+    }
   });
 
   // 2) Define email options
@@ -16,7 +16,7 @@ const sendEmail = async options => {
     from: 'Natours <contact@natours.com>',
     to: options.email,
     subject: options.subject,
-    text: options.message,
+    text: options.message
     //html:
   };
 

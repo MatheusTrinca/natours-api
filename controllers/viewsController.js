@@ -3,7 +3,7 @@ const Tour = require('../models/tourModel');
 
 exports.getOverview = catchAsync(async (req, res, next) => {
   const tours = await Tour.find();
-  res.status(200).render('overview', { tours });
+  res.status(200).render('overview', { title: 'All Tours', tours });
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
@@ -11,5 +11,11 @@ exports.getTour = catchAsync(async (req, res, next) => {
     path: 'reviews',
     select: 'user review rating',
   });
-  res.status(200).render('tour', { tour });
+  res.status(200).render('tour', { title: `${tour.name} Tour`, tour });
 });
+
+exports.getLogin = (req, res) => {
+  res.status(200).render('login', {
+    title: 'Login',
+  });
+};
