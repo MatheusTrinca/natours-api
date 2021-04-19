@@ -9,6 +9,5 @@ router.use(authController.isLoggedIn);
 router.get('/', viewsController.getOverview);
 router.get('/tours/:slug', viewsController.getTour);
 router.get('/login', viewsController.getLogin);
-router.get('/logout', viewsController.logout);
 
 module.exports = router;

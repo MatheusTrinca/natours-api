@@ -19,7 +19,7 @@ export const login = async (email, password) => {
   }
 };
 
-export const logout = async (req, res) => {
+export const logout = async () => {
   try {
     const res = await axios({
       method: 'GET',
@@ -30,6 +30,6 @@ export const logout = async (req, res) => {
     }
   } catch (err) {
     console.log(err.response);
-    showAlert('error', 'Log out error. Please try again.');
+    showAlert('error', 'Error logging out! Try again.');
   }
 };

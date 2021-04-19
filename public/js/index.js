@@ -20,7 +20,7 @@ if (loginForm) {
   });
 }
 
-if (logout) {
+if (logoutBtn) {
   logoutBtn.addEventListener('click', e => {
     e.preventDefault();
     logout();

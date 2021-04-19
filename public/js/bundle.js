@@ -2803,7 +2803,7 @@ const login = async (email, password) => {
 
 exports.login = login;
 
-const logout = async (req, res) => {
+const logout = async () => {
   try {
     const res = await (0, _axios.default)({
       method: 'GET',
@@ -2815,7 +2815,7 @@ const logout = async (req, res) => {
     }
   } catch (err) {
     console.log(err.response);
-    (0, _alerts.showAlert)('error', 'Log out error. Please try again.');
+    (0, _alerts.showAlert)('error', 'Error logging out! Try again.');
   }
 };
 
@@ -2899,7 +2899,7 @@ if (loginForm) {
   });
 }
 
-if (_login.logout) {
+if (logoutBtn) {
   logoutBtn.addEventListener('click', e => {
     e.preventDefault();
     (0, _login.logout)();
@@ -2933,7 +2933,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49956" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58496" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
