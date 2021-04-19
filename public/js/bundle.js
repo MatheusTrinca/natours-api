@@ -2771,7 +2771,7 @@ exports.showAlert = showAlert;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.login = void 0;
+exports.logout = exports.login = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -2802,6 +2802,24 @@ const login = async (email, password) => {
 };
 
 exports.login = login;
+
+const logout = async (req, res) => {
+  try {
+    const res = await (0, _axios.default)({
+      method: 'GET',
+      url: 'http://localhost:3000/api/v1/users/logout'
+    });
+
+    if (res.data.status === 'success') {
+      location.reload(true);
+    }
+  } catch (err) {
+    console.log(err.response);
+    (0, _alerts.showAlert)('error', 'Log out error. Please try again.');
+  }
+};
+
+exports.logout = logout;
 },{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"mapbox.js":[function(require,module,exports) {
 "use strict";
 
@@ -2865,18 +2883,26 @@ var _mapbox = require("./mapbox");
 
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form');
+const logoutBtn = document.querySelector('.nav__el--logout');
 
 if (mapbox) {
-  const locations = JSON.parse(document.getElementById('map').dataset.locations);
+  const locations = JSON.parse(mapbox.dataset.locations);
   (0, _mapbox.showMap)(locations);
 }
 
 if (loginForm) {
-  document.querySelector('.form').addEventListener('submit', e => {
+  loginForm.addEventListener('submit', e => {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     (0, _login.login)(email, password);
+  });
+}
+
+if (_login.logout) {
+  logoutBtn.addEventListener('click', e => {
+    e.preventDefault();
+    (0, _login.logout)();
   });
 }
 },{"core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js","./mapbox":"mapbox.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
@@ -2907,7 +2933,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63386" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49956" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
