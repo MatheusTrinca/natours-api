@@ -1,5 +1,6 @@
-import { login } from '../js/login';
-import { showMap } from '../js/mapbox';
+import { login } from './login';
+import { showMap } from './mapbox';
+import '@babel/polyfill';
 
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form');
