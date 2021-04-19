@@ -1,9 +1,10 @@
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
+const AppError = require('../utils/appError');
 
 const filterObj = (obj, ...allowedFields) => {
-  let filtered = {};
+  const filtered = {};
   Object.keys(obj).forEach(key => {
     if (allowedFields.includes(key)) {
       filtered[key] = obj[key];

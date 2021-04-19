@@ -44,9 +44,13 @@
     "eslint-plugin-react": "^7.12.4",
     "ndb": "^1.1.5",
     "nodemon": "^2.0.7",
-    "parcel-bundler": "^1.12.5"
+    "parcel-bundler": "^1.12.5",
+    "prettier": "^2.2.1"
   },
   "browserslist": [
     "last 1 Chrome versions"
-  ]
+  ],
+  "engines": {
+    "node": ">=10.0.0"
+  }
 }

@@ -1,10 +1,10 @@
-const User = require('../models/userModel');
-const { promisify } = require('util');
-const catchAsync = require('../utils/catchAsync');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
+const User = require('../models/userModel');
+const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
-const crypto = require('crypto');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -90,13 +90,20 @@ exports.protect = catchAsync(async (req, res, next) => {
   // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    new AppError('The user belonging to this token no longer exists.', 401);
+    return new AppError(
+      'The user belonging to this token no longer exists.',
+      401
+    );
   }
 
   // 4) Check if user changed password after token was issued
   if (currentUser.changedPasswordAfter(decoded.iat)) {
-    new AppError('User recently changed password, Please log in again.', 401);
+    return new AppError(
+      'User recently changed password, Please log in again.',
+      401
+    );
   }
+  res.locals.user = currentUser;
   req.user = currentUser;
 
   next();
@@ -220,6 +227,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   // 3) If so, update password
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
+
   await user.save();
   // 4) Log user in, send JWT
   createAndSendToken(user, 200, res);

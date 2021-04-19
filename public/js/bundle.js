@@ -2779,6 +2779,7 @@ var _alerts = require("./alerts");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint-disable */
 const login = async (email, password) => {
   try {
     const res = await (0, _axios.default)({
@@ -2868,7 +2869,41 @@ const showMap = locations => {
 };
 
 exports.showMap = showMap;
-},{}],"index.js":[function(require,module,exports) {
+},{}],"updateSettings.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateSettings = void 0;
+
+var _axios = _interopRequireDefault(require("axios"));
+
+var _alerts = require("./alerts");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable */
+const updateSettings = async (type, data) => {
+  const endpoint = type === 'user' ? 'updateMe' : 'updateMyPassword';
+
+  try {
+    const res = await (0, _axios.default)({
+      method: 'PATCH',
+      url: `http://localhost:3000/api/v1/users/${endpoint}`,
+      data
+    });
+
+    if (res.data.status === 'success') {
+      (0, _alerts.showAlert)('success', `${type.toUpperCase()} updated sucessfully!`);
+    }
+  } catch (err) {
+    (0, _alerts.showAlert)('error', err.response.data.message);
+  }
+};
+
+exports.updateSettings = updateSettings;
+},{"axios":"../../node_modules/axios/index.js","./alerts":"alerts.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("core-js/modules/web.timers.js");
@@ -2881,8 +2916,13 @@ var _login = require("./login");
 
 var _mapbox = require("./mapbox");
 
+var _updateSettings = require("./updateSettings");
+
+/* eslint-disable */
 const mapbox = document.getElementById('map');
-const loginForm = document.querySelector('.form');
+const loginForm = document.querySelector('.form--login');
+const userForm = document.querySelector('.form-user-data');
+const userPassword = document.querySelector('.form-user-password');
 const logoutBtn = document.querySelector('.nav__el--logout');
 
 if (mapbox) {
@@ -2905,7 +2945,38 @@ if (logoutBtn) {
     (0, _login.logout)();
   });
 }
-},{"core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js","./mapbox":"mapbox.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+
+if (userForm) {
+  userForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    (0, _updateSettings.updateSettings)('user', {
+      name,
+      email
+    });
+  });
+}
+
+if (userPassword) {
+  userPassword.addEventListener('submit', async e => {
+    e.preventDefault();
+    document.querySelector('.btn--password').textContent = 'Updating...';
+    const passwordCurrent = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    await (0, _updateSettings.updateSettings)('password', {
+      passwordCurrent,
+      password,
+      passwordConfirm
+    });
+    document.querySelector('.btn--password').textContent = 'Save password';
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
+  });
+}
+},{"core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js","./mapbox":"mapbox.js","./updateSettings":"updateSettings.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -2933,7 +3004,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58496" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59461" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
