@@ -1,4 +1,5 @@
 const express = require('express');
+
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
 
@@ -13,7 +14,12 @@ router.patch('/resetPassword/:token', authController.resetPassword);
 router.use(authController.protect); // proteje todas as rotas abaixo dessa
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getUserId, userController.getUser);
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadUserPhoto,
+  userController.resizeImage,
+  userController.updateMe
+);
 router.delete('/deleteMe', userController.deleteMe);
 
 router.use(authController.restrictTo('admin')); // restringe para admin todas abaixo dessa
