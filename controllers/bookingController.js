@@ -1,9 +1,9 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEYS);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
-exports.bookingController = catchAsync(async (req, res, next) => {
+exports.getCheckout = catchAsync(async (req, res, next) => {
   // 1 Get current booked tour
   const tour = await Tour.findById(req.params.tourId);
 
@@ -18,10 +18,8 @@ exports.bookingController = catchAsync(async (req, res, next) => {
       {
         name: `${tour.name} Tour`,
         description: tour.summary,
-        images: [
-          `${req.protocol}://${req.get('host')}/img/tours/${tour.imageCover}`,
-        ],
-        amount: tour.price * 100,
+        images: [`https://natours.dev/img/tours/${tour.imageCover}`],
+        amount: tour.price * 100, // Em centavos
         currency: 'usd',
         quantity: 1,
       },
