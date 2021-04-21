@@ -7,14 +7,20 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `Matheus Trinca <${process.env.EMAIL_FROM}>`;
+    this.from = `Natours <${process.env.EMAIL_FROM}>`;
   }
 
   // 1) create Transporter
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
       // Sendgrid
-      return;
+      return nodemailer.createTransport({
+        service: 'Sendgrid',
+        auth: {
+          user: process.env.SENDGRID_USER,
+          password: process.env.SENDGRID_PASS,
+        },
+      });
     }
 
     return nodemailer.createTransport({
@@ -44,10 +50,13 @@ module.exports = class Email {
       text: htmlToText.fromString(html),
     };
     // 3) Send email
-    await this.newTransport.sendMail(mailOptions);
+    await this.newTransport().sendMail(mailOptions);
   }
 
   async sendWelcome() {
     await this.send('welcome', 'Welcome to the Natours Family!');
+  }
+  async sendPasswordReset() {
+    await this.send('passwordReset', 'Password reset token');
   }
 };
