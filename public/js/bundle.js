@@ -2943,14 +2943,14 @@ var _alerts = require("./alerts");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const stripe = Stripe('pk_test_51Iih4FCsX75FS7s7KHAH3uH0EZCvGzf5iBYrUqnhF726vpEvt55OTKPjnfLhrXPtIWicr8h1iFEwypLZC2v5dpyx00R6Fmzlel;');
+const stripe = Stripe('pk_test_51Iih4FCsX75FS7s7KHAH3uH0EZCvGzf5iBYrUqnhF726vpEvt55OTKPjnfLhrXPtIWicr8h1iFEwypLZC2v5dpyx00R6Fmzlel');
 
 const bookTour = async tourId => {
   try {
     // 1) Get checkout from API
     const session = await (0, _axios.default)(`http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`); // 2) create checkout form - charge credit card
 
-    stripe.redirectToCheckout({
+    await stripe.redirectToCheckout({
       sessionId: session.data.session.id
     });
   } catch (err) {
@@ -3085,7 +3085,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50259" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59453" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

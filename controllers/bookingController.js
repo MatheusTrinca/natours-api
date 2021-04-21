@@ -12,13 +12,13 @@ exports.getCheckout = catchAsync(async (req, res, next) => {
     payment_method_types: ['card'],
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
-    success_url: `${req.protocol}://${req.get('host')}/`,
-    cancel_url: `${req.protocol}://${req.get('host')}/tours/${tour.slug}`,
+    success_url: `${req.protocol}://${req.get('host')}`,
+    cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     line_items: [
       {
         name: `${tour.name} Tour`,
         description: tour.summary,
-        images: [`https://natours.dev/img/tours/${tour.imageCover}`],
+        images: [`https://www.natours.dev/img/tours/${tour.imageCover}`],
         amount: tour.price * 100, // Em centavos
         currency: 'usd',
         quantity: 1,
