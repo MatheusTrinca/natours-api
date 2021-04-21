@@ -2765,13 +2765,13 @@ const showAlert = (type, message) => {
 };
 
 exports.showAlert = showAlert;
-},{}],"login.js":[function(require,module,exports) {
+},{}],"auth.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.logout = exports.login = void 0;
+exports.logout = exports.signup = exports.login = void 0;
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -2803,6 +2803,32 @@ const login = async (email, password) => {
 };
 
 exports.login = login;
+
+const signup = async (name, email, password, passwordConfirm) => {
+  try {
+    const res = await (0, _axios.default)({
+      method: 'POST',
+      url: 'http://localhost:3000/api/v1/users/signup',
+      data: {
+        name,
+        email,
+        password,
+        passwordConfirm
+      }
+    });
+
+    if (res.data.status === 'success') {
+      (0, _alerts.showAlert)('success', 'Signed up Sucessfully!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    (0, _alerts.showAlert)('error', err.response.data.message);
+  }
+};
+
+exports.signup = signup;
 
 const logout = async () => {
   try {
@@ -2912,7 +2938,7 @@ require("core-js/modules/web.immediate.js");
 
 require("core-js/modules/web.dom.iterable.js");
 
-var _login = require("./login");
+var _auth = require("./auth");
 
 var _mapbox = require("./mapbox");
 
@@ -2921,6 +2947,7 @@ var _updateSettings = require("./updateSettings");
 /* eslint-disable */
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
+const signupForm = document.querySelector('.form--signup');
 const userForm = document.querySelector('.form-user-data');
 const userPassword = document.querySelector('.form-user-password');
 const logoutBtn = document.querySelector('.nav__el--logout');
@@ -2935,14 +2962,25 @@ if (loginForm) {
     e.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    (0, _login.login)(email, password);
+    (0, _auth.login)(email, password);
   });
 }
 
 if (logoutBtn) {
   logoutBtn.addEventListener('click', e => {
     e.preventDefault();
-    (0, _login.logout)();
+    (0, _auth.logout)();
+  });
+}
+
+if (signupForm) {
+  signupForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    (0, _auth.signup)(name, email, password, passwordConfirm);
   });
 }
 
@@ -2975,7 +3013,7 @@ if (userPassword) {
     document.getElementById('password-confirm').value = '';
   });
 }
-},{"core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./login":"login.js","./mapbox":"mapbox.js","./updateSettings":"updateSettings.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"core-js/modules/web.timers.js":"../../node_modules/core-js/modules/web.timers.js","core-js/modules/web.immediate.js":"../../node_modules/core-js/modules/web.immediate.js","core-js/modules/web.dom.iterable.js":"../../node_modules/core-js/modules/web.dom.iterable.js","./auth":"auth.js","./mapbox":"mapbox.js","./updateSettings":"updateSettings.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -3003,7 +3041,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55789" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49987" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

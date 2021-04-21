@@ -1,11 +1,12 @@
 /* eslint-disable */
-import { login, logout } from './login';
+import { login, logout, signup } from './auth';
 import { showMap } from './mapbox';
 import '@babel/polyfill';
 import { updateSettings } from './updateSettings';
 
 const mapbox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
+const signupForm = document.querySelector('.form--signup');
 const userForm = document.querySelector('.form-user-data');
 const userPassword = document.querySelector('.form-user-password');
 const logoutBtn = document.querySelector('.nav__el--logout');
@@ -28,6 +29,17 @@ if (logoutBtn) {
   logoutBtn.addEventListener('click', e => {
     e.preventDefault();
     logout();
+  });
+}
+
+if (signupForm) {
+  signupForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    signup(name, email, password, passwordConfirm);
   });
 }
 
