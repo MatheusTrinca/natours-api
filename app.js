@@ -14,6 +14,7 @@ const viewsRouter = require('./routes/viewsRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const compress = require('compress');
 
 const app = express();
 
@@ -67,11 +68,13 @@ app.use(
 );
 
 // Test middleware
-app.use((req, res, next) => {
-  req.requestedTime = new Date().toISOString();
-  //console.log(req.headers);
-  next();
-});
+// app.use((req, res, next) => {
+//   req.requestedTime = new Date().toISOString();
+//   //console.log(req.headers);
+//   next();
+// });
+
+app.use(compress());
 
 // 3) Routes
 
