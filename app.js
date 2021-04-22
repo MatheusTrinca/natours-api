@@ -14,7 +14,7 @@ const viewsRouter = require('./routes/viewsRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
-const compress = require('compress');
+const compression = require('compression');
 
 const app = express();
 
@@ -74,7 +74,7 @@ app.use(
 //   next();
 // });
 
-app.use(compress());
+app.use(compression());
 
 // 3) Routes
 
