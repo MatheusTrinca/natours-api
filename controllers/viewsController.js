@@ -3,9 +3,9 @@ const AppError = require('../utils/appError');
 const Tour = require('../models/tourModel');
 const Booking = require('../models/bookingModel');
 
-exports.alert = (req, res) => {
+exports.alerts = (req, res, next) => {
   const { alert } = req.query;
-  if (alert) {
+  if (alert === 'booking') {
     res.locals.alert =
       "Your booking was successful! Please check your email for a confirmation. If your booking doesn't show up here immediatly, please come back later.";
   }
