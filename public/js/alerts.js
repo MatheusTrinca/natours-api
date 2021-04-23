@@ -7,10 +7,10 @@ export const hideAlert = () => {
 };
 
 // Show Alert
-export const showAlert = (type, message) => {
+export const showAlert = (type, message, time = 7) => {
   const div = `<div class="alert alert--${type}">${message}</div>`;
   document.querySelector('body').insertAdjacentHTML('afterbegin', div);
   window.setTimeout(() => {
     hideAlert();
-  }, 5000);
+  }, time * 1000);
 };
