@@ -15,6 +15,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const compression = require('compression');
+const cors = require('cors');
 
 const app = express();
 
