@@ -16,6 +16,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const compression = require('compression');
 const cors = require('cors');
+const bookingController = require('./controllers/bookingController');
 
 const app = express();
 
@@ -47,6 +48,12 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
+
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application.json' }),
+  bookingController.webhookCheckout
+);
 
 // Body parser, read data from request body - Limit 10kb
 app.use(express.json({ limit: '10kb' }));
